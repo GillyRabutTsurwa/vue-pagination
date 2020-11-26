@@ -1,21 +1,20 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <PostList v-bind:postsProp="currentPosts" v-bind:loadingProp="loading" />
 </template>
 
 <script>
 import axios from "axios";
-import HelloWorld from "./components/HelloWorld.vue";
+import PostList from "./components/PostList";
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    PostList: PostList,
   },
   data() {
     return {
       posts: [],
       loading: false,
-      //pagination variables
       currentPage: 1,
       postsPerPage: 10,
     };
@@ -28,11 +27,28 @@ export default {
       );
       const data = response.data;
       console.log(data);
+
+      this.posts = data;
       this.loading = false;
+    },
+  },
+  computed: {
+    indexOfLastPost() {
+      return this.currentPage * this.postsPerPage;
+    },
+    indexOfFirstPost() {
+      return this.indexOfLastPost - this.postsPerPage;
+    },
+    currentPosts() {
+      return this.posts.slice(this.indexOfFirstPost, this.indexOfLastPost);
     },
   },
   async created() {
     this.fetchPosts();
+  },
+  //TESTING:
+  updated() {
+    console.log(this.currentPosts);
   },
 };
 </script>

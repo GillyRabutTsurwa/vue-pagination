@@ -1,15 +1,18 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <PostList v-bind:postsProp="currentPosts" v-bind:loadingProp="loading" />
+  <Pagination v-bind:postsPerPageProp="postsPerPage" v-bind:postsLengthProp="posts.length" v-on:paginate-evt="paginate($event)" />
 </template>
 
 <script>
 import axios from "axios";
 import PostList from "./components/PostList";
+import Pagination from "./components/Pagination";
 export default {
   name: "App",
   components: {
     PostList: PostList,
+    Pagination: Pagination,
   },
   data() {
     return {
@@ -30,6 +33,11 @@ export default {
 
       this.posts = data;
       this.loading = false;
+    },
+    //NEW:
+    paginate(currentPageNumber) {
+      console.log(currentPageNumber);
+      this.currentPage = currentPageNumber;
     },
   },
   computed: {

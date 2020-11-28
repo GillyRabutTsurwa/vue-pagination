@@ -1,6 +1,6 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <PostList v-bind:postsProp="currentPosts" v-bind:loadingProp="loading" />
+  <!-- NEW: The paginate-evt being passed up from the child Pagination component, which is bring with it the current page number data - which we are accessing via $event. -->
   <Pagination v-bind:postsPerPageProp="postsPerPage" v-bind:postsLengthProp="posts.length" v-on:paginate-evt="paginate($event)" />
 </template>
 
@@ -34,7 +34,7 @@ export default {
       this.posts = data;
       this.loading = false;
     },
-    //NEW:
+    //NEW: We then assign the currentPage to that $event coming from the child, but obviously the parametre is simply called currentPageNumber. $event is the arguement and currentPageNumber is the parametre just in case this is confusing to me later on
     paginate(currentPageNumber) {
       console.log(currentPageNumber);
       this.currentPage = currentPageNumber;

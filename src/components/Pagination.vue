@@ -1,8 +1,8 @@
 <template>
   <nav>
     <ul>
-      <li v-for="currentPageNo in pageNumbers" v-bind:key="currentPageNo">
-        <a @click="paginate(currentPageNo)">{{currentPageNo}}</a>
+      <li v-for="currentPageNumber in pageNumbers" v-bind:key="currentPageNumber">
+        <a @click="paginate(currentPageNumber)">{{currentPageNumber}}</a>
       </li>
     </ul>
   </nav>
@@ -16,16 +16,10 @@ export default {
       type: Number,
       required: true,
     },
-    // NOTE: This is the length of ALL the posts
     postsLengthProp: {
       type: Number,
       required: true,
     },
-  },
-  data() {
-    return {
-      // pageNumbers: [],
-    };
   },
   computed: {
     pageNumbers() {
@@ -41,14 +35,12 @@ export default {
       return pageNumbers;
     },
   },
-  //NEW:
+  //NEW: the paginate() below will take the current page number and pass an event up to the App component with that page number. In the App component, this page number will then be used to set the current page.
+  //NOTE: This is Vue fundamentals: Event emission from child to parent. Still got it 😏
   methods: {
     paginate(pageNumber) {
       this.$emit("paginate-evt", pageNumber);
     },
-  },
-  created() {
-    console.log("Pagination component created. TESTO");
   },
 };
 </script>

@@ -1,8 +1,9 @@
 <template>
   <nav>
     <ul>
-      <li v-for="currentPageNo in pageNumbers" v-bind:key="currentPageNo">
-        <a @click="paginate(currentPageNo)">{{currentPageNo}}</a>
+      <li v-for="currentPageNumber in pageNumbers" v-bind:key="currentPageNumber">
+        <!-- NOTE: In the next branch, we will make it work upon click. We will put a click event in this anchor tag. For now it only works by changing the currentPage in our code (change value of currentPage @ App.js) -->
+        <a href="#">{{currentPageNumber}}</a>
       </li>
     </ul>
   </nav>
@@ -22,14 +23,12 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      // pageNumbers: [],
-    };
-  },
   computed: {
+    // NOTE: This is the number of page links there will be. Look at the li element at the template code.
     pageNumbers() {
       const pageNumbers = [];
+
+      // NOTE: so in our default case, we have 100 posts and there will be 10 posts per page. So 100/10 = 10. If we suddenly have 5 posts per page, there will be 20 page links (100/5).
       let pageNumLimit = Math.ceil(
         this.postsLengthProp / this.postsPerPageProp
       );
@@ -39,12 +38,6 @@ export default {
       }
 
       return pageNumbers;
-    },
-  },
-  //NEW:
-  methods: {
-    paginate(pageNumber) {
-      this.$emit("paginate-evt", pageNumber);
     },
   },
   created() {

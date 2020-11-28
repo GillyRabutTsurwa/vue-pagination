@@ -1,12 +1,13 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <PostList v-bind:postsProp="currentPosts" v-bind:loadingProp="loading" />
-  <Pagination v-bind:postsPerPageProp="postsPerPage" v-bind:postsLengthProp="posts.length" v-on:paginate-evt="paginate($event)" />
+  <!-- NEW: The pagination will accept two props from this app component. the posts per page and the total number of posts (the length of the posts array) -->
+  <Pagination v-bind:postsPerPageProp="postsPerPage" v-bind:postsLengthProp="posts.length" />
 </template>
 
 <script>
 import axios from "axios";
 import PostList from "./components/PostList";
+//NEW:
 import Pagination from "./components/Pagination";
 export default {
   name: "App",
@@ -18,7 +19,9 @@ export default {
     return {
       posts: [],
       loading: false,
+      // NOTE: Playing around with this value, will change the currentPage of the array of posts. We will write some code in the next branch so that we can change this value by clicking the correct page number
       currentPage: 1,
+      // NOTE: playing around with this value will change the number of posts shown in a page. We're not touching this.
       postsPerPage: 10,
     };
   },
@@ -33,11 +36,6 @@ export default {
 
       this.posts = data;
       this.loading = false;
-    },
-    //NEW:
-    paginate(currentPageNumber) {
-      console.log(currentPageNumber);
-      this.currentPage = currentPageNumber;
     },
   },
   computed: {
